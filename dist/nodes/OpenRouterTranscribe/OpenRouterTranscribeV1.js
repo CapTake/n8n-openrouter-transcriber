@@ -41,29 +41,29 @@ const n8n_workflow_1 = require("n8n-workflow");
 const axios_1 = __importDefault(require("axios"));
 const path = __importStar(require("path"));
 const audioFormats = [
-    { name: 'WAV', value: 'wav' },
-    { name: 'MP3', value: 'mp3' },
-    { name: 'AIFF', value: 'aiff' },
-    { name: 'AAC', value: 'aac' },
-    { name: 'OGG', value: 'ogg' },
-    { name: 'FLAC', value: 'flac' },
-    { name: 'M4A', value: 'm4a' },
-    { name: 'PCM16', value: 'pcm16' },
-    { name: 'PCM24', value: 'pcm24' },
-    { name: 'OGA', value: 'oga' },
+    { name: "WAV", value: "wav" },
+    { name: "MP3", value: "mp3" },
+    { name: "AIFF", value: "aiff" },
+    { name: "AAC", value: "aac" },
+    { name: "OGG", value: "ogg" },
+    { name: "FLAC", value: "flac" },
+    { name: "M4A", value: "m4a" },
+    { name: "PCM16", value: "pcm16" },
+    { name: "PCM24", value: "pcm24" },
+    { name: "OGA", value: "oga" },
 ];
 const audioFormatMap = {
-    wav: 'wav',
-    mp3: 'mp3',
-    aiff: 'aiff',
-    aif: 'aiff',
-    aac: 'aac',
-    ogg: 'ogg',
-    oga: 'ogg',
-    flac: 'flac',
-    m4a: 'm4a',
-    pcm16: 'pcm16',
-    pcm24: 'pcm24',
+    wav: "wav",
+    mp3: "mp3",
+    aiff: "aiff",
+    aif: "aiff",
+    aac: "aac",
+    ogg: "ogg",
+    oga: "ogg",
+    flac: "flac",
+    m4a: "m4a",
+    pcm16: "pcm16",
+    pcm24: "pcm24",
 };
 function getAudioFormatFromFileName(fileName) {
     const ext = path.extname(fileName).toLowerCase().slice(1);
@@ -76,145 +76,145 @@ function getAudioFormatFromFileName(fileName) {
 class OpenRouterTranscribeV1 {
     constructor() {
         this.description = {
-            displayName: 'OpenRouter Transcribe',
-            name: 'openRouterTranscribe',
-            icon: 'file:openrouter.svg',
-            group: ['transform'],
+            displayName: "OpenRouter Transcribe",
+            name: "openRouterTranscribe",
+            icon: "file:openrouter.svg",
+            group: ["transform"],
             version: 1,
             subtitle: '={{$parameter["model"]}}',
-            description: 'Transcribe audio to text using OpenRouter API',
+            description: "Transcribe audio to text using OpenRouter API",
             defaults: {
-                name: 'OpenRouter Transcribe',
+                name: "OpenRouter Transcribe",
             },
-            inputs: ['main'],
-            outputs: ['main'],
+            inputs: ["main"],
+            outputs: ["main"],
             credentials: [
                 {
-                    name: 'openRouterApi',
+                    name: "openRouterApi",
                     required: true,
                 },
             ],
             properties: [
                 {
-                    displayName: 'Input Data',
-                    name: 'inputData',
-                    type: 'options',
+                    displayName: "Input Data",
+                    name: "inputData",
+                    type: "options",
                     options: [
                         {
-                            name: 'Binary',
-                            value: 'binary',
-                            description: 'Read audio from binary input data',
+                            name: "Binary",
+                            value: "binary",
+                            description: "Read audio from binary input data",
                         },
                         {
-                            name: 'Text (Base64)',
-                            value: 'text',
-                            description: 'Provide base64-encoded audio as text',
+                            name: "Text (Base64)",
+                            value: "text",
+                            description: "Provide base64-encoded audio as text",
                         },
                     ],
-                    default: 'binary',
-                    description: 'How to provide the audio input',
+                    default: "binary",
+                    description: "How to provide the audio input",
                 },
                 {
-                    displayName: 'Binary Property',
-                    name: 'binaryPropertyName',
-                    type: 'string',
-                    default: 'data',
+                    displayName: "Binary Property",
+                    name: "binaryPropertyName",
+                    type: "string",
+                    default: "data",
                     required: true,
                     displayOptions: {
                         show: {
-                            inputData: ['binary'],
+                            inputData: ["binary"],
                         },
                     },
-                    description: 'Name of the binary property containing the audio data',
+                    description: "Name of the binary property containing the audio data",
                 },
                 {
-                    displayName: 'Input Text Field',
-                    name: 'inputTextField',
-                    type: 'string',
+                    displayName: "Input Text Field",
+                    name: "inputTextField",
+                    type: "string",
                     typeOptions: {
                         rows: 4,
                     },
-                    default: '',
+                    default: "",
                     required: true,
                     displayOptions: {
                         show: {
-                            inputData: ['text'],
+                            inputData: ["text"],
                         },
                     },
-                    description: 'Base64-encoded audio data',
+                    description: "Base64-encoded audio data",
                 },
                 {
-                    displayName: 'Audio Format',
-                    name: 'audioFormat',
-                    type: 'options',
+                    displayName: "Audio Format",
+                    name: "audioFormat",
+                    type: "options",
                     options: [
                         ...audioFormats,
-                        { name: 'Auto-detect from filename', value: 'auto' },
+                        { name: "Auto-detect from filename", value: "auto" },
                     ],
-                    default: 'auto',
+                    default: "auto",
                     required: true,
-                    description: 'The format of the audio file. Auto-detect extracts the format from the filename extension.',
+                    description: "The format of the audio file. Auto-detect extracts the format from the filename extension.",
                 },
                 {
-                    displayName: 'Model',
-                    name: 'model',
-                    type: 'string',
-                    default: 'google/gemini-2.5-flash-lite',
+                    displayName: "Model",
+                    name: "model",
+                    type: "string",
+                    default: "google/gemini-2.5-flash-lite",
                     required: true,
                     description: 'The model to use for transcription. Must be a model that supports audio input. Check <a href="https://openrouter.ai/models?modality=audio" target="_blank">available models</a>.',
                 },
                 {
-                    displayName: 'Prompt',
-                    name: 'prompt',
-                    type: 'string',
+                    displayName: "Prompt",
+                    name: "prompt",
+                    type: "string",
                     typeOptions: {
                         rows: 3,
                     },
-                    default: 'Please transcribe this audio file. Return exact transcription.',
-                    description: 'The instruction to send along with the audio to the model',
+                    default: "Please transcribe this audio file. Return exact transcription.",
+                    description: "The instruction to send along with the audio to the model",
                 },
                 {
-                    displayName: 'Options',
-                    name: 'options',
-                    type: 'collection',
-                    placeholder: 'Add Option',
+                    displayName: "Options",
+                    name: "options",
+                    type: "collection",
+                    placeholder: "Add Option",
                     default: {},
                     options: [
                         {
-                            displayName: 'Max Tokens',
-                            name: 'maxTokens',
-                            type: 'number',
+                            displayName: "Max Tokens",
+                            name: "maxTokens",
+                            type: "number",
                             default: 4096,
-                            description: 'Maximum number of tokens to generate in the response',
+                            description: "Maximum number of tokens to generate in the response",
                         },
                         {
-                            displayName: 'Temperature',
-                            name: 'temperature',
-                            type: 'number',
+                            displayName: "Temperature",
+                            name: "temperature",
+                            type: "number",
                             typeOptions: {
                                 minValue: 0,
                                 maxValue: 2,
                             },
                             default: 0,
-                            description: 'Controls randomness in the output. Lower values are more deterministic.',
+                            description: "Controls randomness in the output. Lower values are more deterministic.",
                         },
                         {
-                            displayName: 'Top P',
-                            name: 'topP',
-                            type: 'number',
+                            displayName: "Top P",
+                            name: "topP",
+                            type: "number",
                             typeOptions: {
                                 minValue: 0,
                                 maxValue: 1,
                             },
                             default: 1,
-                            description: 'Nucleus sampling parameter',
+                            description: "Nucleus sampling parameter",
                         },
                         {
-                            displayName: 'Return Raw Response',
-                            name: 'returnRawResponse',
-                            type: 'boolean',
+                            displayName: "Return Raw Response",
+                            name: "returnRawResponse",
+                            type: "boolean",
                             default: false,
-                            description: 'Whether to return the complete raw API response instead of just the transcription',
+                            description: "Whether to return the complete raw API response instead of just the transcription",
                         },
                     ],
                 },
@@ -224,28 +224,28 @@ class OpenRouterTranscribeV1 {
     async execute() {
         const items = this.getInputData();
         const returnData = [];
-        const credentials = await this.getCredentials('openRouterApi');
+        const credentials = await this.getCredentials("openRouterApi");
         const apiKey = credentials.apiKey;
         for (let i = 0; i < items.length; i++) {
             try {
-                const inputData = this.getNodeParameter('inputData', i);
-                let audioFormat = this.getNodeParameter('audioFormat', i);
-                const model = this.getNodeParameter('model', i);
-                const prompt = this.getNodeParameter('prompt', i);
-                const options = this.getNodeParameter('options', i);
+                const inputData = this.getNodeParameter("inputData", i);
+                let audioFormat = this.getNodeParameter("audioFormat", i);
+                const model = this.getNodeParameter("model", i);
+                const prompt = this.getNodeParameter("prompt", i);
+                const options = this.getNodeParameter("options", i);
                 let base64Audio;
-                let fileName = '';
-                if (inputData === 'binary') {
-                    const binaryPropertyName = this.getNodeParameter('binaryPropertyName', i);
+                let fileName = "";
+                if (inputData === "binary") {
+                    const binaryPropertyName = this.getNodeParameter("binaryPropertyName", i);
                     const binaryData = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
-                    base64Audio = binaryData.toString('base64');
+                    base64Audio = binaryData.toString("base64");
                     const inputDataItem = items[i];
                     if (inputDataItem.binary?.[binaryPropertyName]) {
-                        fileName = inputDataItem.binary[binaryPropertyName].fileName || '';
+                        fileName = inputDataItem.binary[binaryPropertyName].fileName || "";
                     }
-                    if (audioFormat === 'auto') {
+                    if (audioFormat === "auto") {
                         if (!fileName) {
-                            throw new n8n_workflow_1.NodeOperationError(this.getNode(), 'Cannot auto-detect audio format: filename not available', {
+                            throw new n8n_workflow_1.NodeOperationError(this.getNode(), "Cannot auto-detect audio format: filename not available", {
                                 itemIndex: i,
                             });
                         }
@@ -253,15 +253,15 @@ class OpenRouterTranscribeV1 {
                     }
                 }
                 else {
-                    base64Audio = this.getNodeParameter('inputTextField', i);
-                    if (audioFormat === 'auto') {
-                        throw new n8n_workflow_1.NodeOperationError(this.getNode(), 'Auto-detect format is not available for text input mode. Please select a specific audio format.', {
+                    base64Audio = this.getNodeParameter("inputTextField", i);
+                    if (audioFormat === "auto") {
+                        throw new n8n_workflow_1.NodeOperationError(this.getNode(), "Auto-detect format is not available for text input mode. Please select a specific audio format.", {
                             itemIndex: i,
                         });
                     }
                 }
-                if (!base64Audio || base64Audio.trim() === '') {
-                    throw new n8n_workflow_1.NodeOperationError(this.getNode(), 'Audio data is empty', {
+                if (!base64Audio || base64Audio.trim() === "") {
+                    throw new n8n_workflow_1.NodeOperationError(this.getNode(), "Audio data is empty", {
                         itemIndex: i,
                     });
                 }
@@ -269,15 +269,15 @@ class OpenRouterTranscribeV1 {
                     model,
                     messages: [
                         {
-                            role: 'user',
+                            role: "user",
                             content: [
                                 {
-                                    type: 'text',
+                                    type: "text",
                                     text: prompt,
                                 },
                                 {
-                                    type: 'input_audio',
-                                    inputAudio: {
+                                    type: "input_audio",
+                                    input_audio: {
                                         data: base64Audio,
                                         format: audioFormat,
                                     },
@@ -296,12 +296,12 @@ class OpenRouterTranscribeV1 {
                 if (options.topP !== undefined) {
                     requestBody.top_p = options.topP;
                 }
-                const response = await axios_1.default.post('https://openrouter.ai/api/v1/chat/completions', requestBody, {
+                const response = await axios_1.default.post(`${credentials.url}/chat/completions`, requestBody, {
                     headers: {
-                        Authorization: `Bearer ${apiKey}`,
-                        'Content-Type': 'application/json',
-                        'HTTP-Referer': 'https://n8n.io',
-                        'X-Title': 'n8n-openrouter-transcribe',
+                        Authorization: `Bearer ${credentials.apiKey}`,
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": "https://n8n.io",
+                        "X-Title": "n8n-openrouter-transcribe",
                     },
                 });
                 const returnRawResponse = options.returnRawResponse ?? false;
@@ -314,7 +314,7 @@ class OpenRouterTranscribeV1 {
                     });
                 }
                 else {
-                    const transcription = response.data.choices?.[0]?.message?.content ?? '';
+                    const transcription = response.data.choices?.[0]?.message?.content ?? "";
                     returnData.push({
                         json: {
                             transcription,
@@ -332,7 +332,7 @@ class OpenRouterTranscribeV1 {
                 const axiosError = error;
                 const errorMessage = axiosError.response?.data?.error?.message ||
                     error.message ||
-                    'Unknown error occurred';
+                    "Unknown error occurred";
                 throw new n8n_workflow_1.NodeOperationError(this.getNode(), errorMessage, {
                     itemIndex: i,
                 });

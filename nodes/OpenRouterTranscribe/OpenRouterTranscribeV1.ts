@@ -203,7 +203,6 @@ export class OpenRouterTranscribeV1 implements INodeType {
     const returnData: INodeExecutionData[] = [];
 
     const credentials = await this.getCredentials("openRouterApi");
-    const apiKey = credentials.apiKey as string;
 
     for (let i = 0; i < items.length; i++) {
       try {
