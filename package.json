@@ -1,0 +1,58 @@
+{
+  "name": "n8n-nodes-openrouter-transcribe",
+  "version": "0.1.0",
+  "description": "n8n node for transcribing audio to text using OpenRouter API",
+  "keywords": [
+    "n8n-community-node-package"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "author": {
+    "name": "Boris Grit",
+    "email": "salv@protonmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CapTake/n8n-openrouter-transcriber"
+  },
+  "engines": {
+    "node": ">=18.10",
+    "pnpm": ">=9.1"
+  },
+  "packageManager": "pnpm@9.1.4",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && pnpm copy:files",
+    "copy:files": "cp -r nodes dist/ && cp -r credentials dist/",
+    "dev": "pnpm build --watch",
+    "format": "prettier --write .",
+    "lint": "eslint nodes credentials --ext .js,.ts",
+    "lintfix": "eslint nodes credentials --ext .js,.ts --fix"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/OpenRouterApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/OpenRouterTranscribe/OpenRouterTranscribeV1.js"
+    ]
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.0",
+    "n8n-workflow": "^1.90.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0"
+  }
+}
