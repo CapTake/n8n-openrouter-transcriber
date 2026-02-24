@@ -159,7 +159,7 @@ class OpenRouterTranscribeV1 {
                     displayName: 'Model',
                     name: 'model',
                     type: 'string',
-                    default: 'openai/gpt-4o-audio-preview',
+                    default: 'google/gemini-2.5-flash-lite',
                     required: true,
                     description: 'The model to use for transcription. Must be a model that supports audio input. Check <a href="https://openrouter.ai/models?modality=audio" target="_blank">available models</a>.',
                 },
@@ -170,7 +170,7 @@ class OpenRouterTranscribeV1 {
                     typeOptions: {
                         rows: 3,
                     },
-                    default: 'Please transcribe this audio file.',
+                    default: 'Please transcribe this audio file. Return exact transcription.',
                     description: 'The instruction to send along with the audio to the model',
                 },
                 {
